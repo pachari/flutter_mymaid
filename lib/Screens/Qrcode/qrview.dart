@@ -1,8 +1,10 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mymaid/Screens/Checkin/components/my_checkin_view.dart';
+// import 'package:flutter_mymaid/constants.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class Qrview extends StatefulWidget {
@@ -42,74 +44,86 @@ class _QrviewState extends State<Qrview> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   if (result != null)
-                    Text(
-                        'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
+                    // Text( 'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
+                     const MycheckView(1)//data['id']
+                     
                   else
-                    const Text('Scan a code')
-              //     Column(
-              //       mainAxisAlignment: MainAxisAlignment.center,
-              //       crossAxisAlignment: CrossAxisAlignment.center,
-              //       children:  <Widget>[
-              //         Container(
-              //           margin: const EdgeInsets.all(8),
-              //           child: ElevatedButton(
-              //                   onPressed: () {},
-              //                   child: const Text('Enabled'),
-              //                 ),
-              //           // ElevatedButton(
-              //           //     onPressed: () async {
-              //           //       await controller?.toggleFlash();
-              //           //       setState(() {});
-              //           //     }, child: const Text('Flash '),
-              //               // child: FutureBuilder(
-              //               //   future: controller?.getFlashStatus(),
-              //               //   builder: (context, snapshot) {
-              //               //     return Text('Flash: ${snapshot.data}');
-              //               //   },
-              //               // )
-              //           // ),
-              //         ),
-              //         // Container(
-              //         //   margin: const EdgeInsets.all(8),
-              //         //   child: ElevatedButton(
-              //         //       onPressed: () async {
-              //         //         await controller?.flipCamera();
-              //         //         setState(() {});
-              //         //       },
-              //         //       child: FutureBuilder(
-              //         //         future: controller?.getCameraInfo(),
-              //         //         builder: (context, snapshot) {
-              //         //           if (snapshot.data != null) {
-              //         //             return Text(
-              //         //                 'Camera facing ${describeEnum(snapshot.data!)}');
-              //         //           } else {
-              //         //             return const Text('loading');
-              //         //           }
-              //         //         },
-              //         //       )),
-              //         // )
-              //       ],
-              //     ),
-              //     // Row(
-              //     //   // mainAxisAlignment: MainAxisAlignment.center,
-              //     //   // crossAxisAlignment: CrossAxisAlignment.center,
-              //     //   children: <Widget>[
-              //     //     ElevatedButton(
-              //     //       onPressed: () async {
-              //     //         await controller?.pauseCamera();
-              //     //       },
-              //     //       child: const Text('pause',
-              //     //           style: TextStyle(fontSize: 20)),
-              //     //     ),
-              //     //     // ElevatedButton(
-              //     //     //   onPressed: () async {
-              //     //     //     await controller?.resumeCamera();
-              //     //     //   },
-              //     //     //   child: const Text('resume',
-              //     //     //       style: TextStyle(fontSize: 20)),
-              //     //     // )
-              //     //   ],
-              //     // ),
+                    Column(
+                      children: const [
+                        Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'QR Code Scanner',
+                            style: TextStyle(fontSize: 14),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                  // Column(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   crossAxisAlignment: CrossAxisAlignment.center,
+                  //   children:  <Widget>[
+                  //     Container(
+                  //       margin: const EdgeInsets.all(8),
+                  //       child: ElevatedButton(
+                  //               onPressed: () {},
+                  //               child: const Text('Enabled'),
+                  //             ),
+                  //       // ElevatedButton(
+                  //       //     onPressed: () async {
+                  //       //       await controller?.toggleFlash();
+                  //       //       setState(() {});
+                  //       //     }, child: const Text('Flash '),
+                  //           // child: FutureBuilder(
+                  //           //   future: controller?.getFlashStatus(),
+                  //           //   builder: (context, snapshot) {
+                  //           //     return Text('Flash: ${snapshot.data}');
+                  //           //   },
+                  //           // )
+                  //       // ),
+                  //     ),
+                  //     // Container(
+                  //     //   margin: const EdgeInsets.all(8),
+                  //     //   child: ElevatedButton(
+                  //     //       onPressed: () async {
+                  //     //         await controller?.flipCamera();
+                  //     //         setState(() {});
+                  //     //       },
+                  //     //       child: FutureBuilder(
+                  //     //         future: controller?.getCameraInfo(),
+                  //     //         builder: (context, snapshot) {
+                  //     //           if (snapshot.data != null) {
+                  //     //             return Text(
+                  //     //                 'Camera facing ${describeEnum(snapshot.data!)}');
+                  //     //           } else {
+                  //     //             return const Text('loading');
+                  //     //           }
+                  //     //         },
+                  //     //       )),
+                  //     // )
+                  //   ],
+                  // ),
+                  // // Row(
+                  // //   // mainAxisAlignment: MainAxisAlignment.center,
+                  // //   // crossAxisAlignment: CrossAxisAlignment.center,
+                  // //   children: <Widget>[
+                  // //     ElevatedButton(
+                  // //       onPressed: () async {
+                  // //         await controller?.pauseCamera();
+                  // //       },
+                  // //       child: const Text('pause',
+                  // //           style: TextStyle(fontSize: 20)),
+                  // //     ),
+                  // //     // ElevatedButton(
+                  // //     //   onPressed: () async {
+                  // //     //     await controller?.resumeCamera();
+                  // //     //   },
+                  // //     //   child: const Text('resume',
+                  // //     //       style: TextStyle(fontSize: 20)),
+                  // //     // )
+                  // //   ],
+                  // // ),
                 ],
               ),
             ),
@@ -121,7 +135,10 @@ class _QrviewState extends State<Qrview> {
 
   Widget _buildQrView(BuildContext context) {
     // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
-    var scanArea = (MediaQuery.of(context).size.width < 400 || MediaQuery.of(context).size.height < 400)? 150.0 : 200.0;
+    // var scanArea = (MediaQuery.of(context).size.width < 400 ||
+    //         MediaQuery.of(context).size.height < 400)
+    //     ? 150.0
+    //     : 200.0;
     // To ensure the Scanner view is properly sizes after rotation
     // we need to listen for Flutter SizeChanged notification and update controller
     return QRView(
@@ -130,10 +147,9 @@ class _QrviewState extends State<Qrview> {
       overlay: QrScannerOverlayShape(
           borderColor: Colors.red,
           borderRadius: 10,
-          borderLength: 30,
+          borderLength: 20,
           borderWidth: 10,
-          cutOutSize: scanArea
-          ),
+          cutOutSize: MediaQuery.of(context).size.width * 0.8 ), //scanArea
       onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
     );
   }

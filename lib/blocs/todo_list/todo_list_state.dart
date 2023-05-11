@@ -1,30 +1,33 @@
 part of 'todo_list_bloc.dart';
 
-class TodoListState extends Equatable{
-  final List<Todo>todos;
+class TodoListState extends Equatable {
+  final List<Todo> todos;
 
   const TodoListState({required this.todos});
 
-  factory TodoListState.initial(){
+  factory TodoListState.initial() {
     return TodoListState(todos: [
-      Todo(id: '1', desc: 'กวาดพื้นห้อง/ดูดฝุ่น/ถูพื้น'),
-      Todo(id: '2', desc: 'เช็ดตู้เอกสาร/เครื่องใช้สำนักงาน/เช็ดโต๊ะ'),
-      // Todo(id: '3', desc: 'ทำความสะอาด ถังขยะ/เก็บขยะ'),
-      // Todo(id: '4', desc: 'ทำความสะอาด ห้องน้ำ'),
-      // Todo(id: '5', desc: 'ทำความสะอาด เพดาน'),
-      // Todo(id: '6', desc: 'ทำความสะอาด ผนัง'),
-      // Todo(id: '7', desc: 'ทำความสะอาด ตู้เย็น'),
-      // Todo(id: '8', desc: 'ทำความสะอาด พัดลม'),
-      // Todo(id: '9', desc: 'อื่นๆ'),
+      Todo(id: '1', desc: 'กวาดพื้น'),
+      Todo(id: '2', desc: 'ดูดฝุ่น'),
+      Todo(id: '3', desc: 'ถูพื้น'),
+      Todo(id: '4', desc: 'เก็บขยะ'),
+      Todo(id: '5', desc: 'เช็ดตู้เอกสาร'),
+      Todo(id: '6', desc: 'เช็ดโต๊ะ'),
+      Todo(id: '7', desc: 'ทำความสะอาด เครื่องใช้สำนักงาน'),
+      Todo(id: '8', desc: 'ทำความสะอาด ถังขยะ'),
+      Todo(id: '9', desc: 'ทำความสะอาด ห้องน้ำ'),
+      Todo(id: '10', desc: 'ทำความสะอาด เพดาน'),
+      Todo(id: '11', desc: 'ทำความสะอาด ผนัง'),
+      Todo(id: '12', desc: 'ทำความสะอาด ตู้เย็น'),
+      Todo(id: '13', desc: 'ทำความสะอาด พัดลม'),
+      Todo(id: '14', desc: 'อื่นๆ'),
     ]);
   }
 
   @override
   List<Object> get props => [todos];
 
-  TodoListState copyWith({
-    List<Todo>? todos,
-  }) {
+  TodoListState copyWith({ List<Todo>? todos, }) {
     return TodoListState(
       todos: todos ?? this.todos,
     );

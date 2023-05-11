@@ -1,4 +1,9 @@
+// ignore_for_file: avoid_function_literals_in_foreach_calls
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 import '../../constants.dart';
 import '../../responsive.dart';
@@ -105,8 +110,51 @@ final Map<DateTime, List<CleanCalendarEvent>> _events = {
 };
 
 class _CalendarScreenState extends State<CalendarScreen> {
-  // final user = FirebaseAuth.instance.currentUser;
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  // DateTime
+  String formattedDates = DateFormat('yyyyMMdd').format(DateTime.now());
+  // document id
+  List<String> docLists = [];
+  List<String> todoActiveIDs = [];
+  List<String> todoActiveNames = [];
+  List<String> checklistsdocIDs = [];
+  // get checklists docIDs
+  Future getChecklistsDocIds() async {
+    final db =  FirebaseFirestore.instance.collection("checklists").orderBy('id');
+    await db.get().then(
+          (snapshot) => snapshot.docs.forEach(
+            (document) {
+              checklistsdocIDs.add(document.reference.id);
+            },
+          ),
+        );
+  }
+
+  // // get DocIdsList
+  // Future getTodoLists(int id) async {
+  //   todoActiveIDs = [];
+  //   final user = FirebaseAuth.instance.currentUser;
+  //   final db = FirebaseFirestore.instance.collection("todolists");
+  //   // ignore: non_constant_identifier_names
+  //   int Sid = 0;
+  //   for (var i = 1; i <= 20; i++) {
+  //     final todolists =
+  //         db.doc(user?.uid).collection('$formattedDates-$id').doc('$i');
+  //     final docSnap = await todolists.get();
+  //     final todolistsId = docSnap.data();
+
+  //     if (todolistsId != null) {
+  //       if (todolistsId['active'] == true) {
+  //         if (Sid != id) {
+  //           todoActiveIDs.add('${todolistsId['checklistid']}');
+  //           todoActiveNames.add('${todolistsId['subtitle']}');
+  //           Sid = id;
+  //         }
+  //       }
+  //     }
+  //   }
+  //   print(todoActiveNames);
+  //   return '$todoActiveIDs';
+  // }
 
   @override
   void initState() {
@@ -114,6 +162,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
     // Force selection of today on first load, so that the list of today's events gets shown.
     _handleNewDate(DateTime(
         DateTime.now().year, DateTime.now().month, DateTime.now().day));
+    // getTodoLists(1);
+    getChecklistsDocIds();
   }
 
   @override
@@ -121,16 +171,16 @@ class _CalendarScreenState extends State<CalendarScreen> {
     // var email = user?.email.toString();
     return Scaffold(
       appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: kPrimaryColor,
-          title: const Text(
-            "History",
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: Color.fromARGB(255, 255, 255, 255)),
-          ),
+        automaticallyImplyLeading: false,
+        backgroundColor: kPrimaryColor,
+        title: const Text(
+          "History",
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: Color.fromARGB(255, 255, 255, 255)),
         ),
+      ),
       body: SafeArea(
         child: Responsive(
           mobile: const MobileLoginScreen(),

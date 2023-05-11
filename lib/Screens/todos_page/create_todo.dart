@@ -23,7 +23,7 @@ class _CreateTodoState extends State<CreateTodo> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(2.0),
       child: TextField(
         controller: newTodoController,
         decoration: const InputDecoration(labelText: 'เพิ่มรายการ'),

@@ -23,7 +23,7 @@ class GetChecklist extends StatelessWidget {
             (snapshot) => snapshot.docs.forEach(
               (document) {
                 // ignore: avoid_print
-                print(document.reference);
+                // print(document.reference);
                 docIDs.add(document.reference.id);
               },
             ),
@@ -130,3 +130,6 @@ class GetChecklist extends StatelessWidget {
     );
   }
 }
+
+
+

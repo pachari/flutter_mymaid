@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_mymaid/Screens/Checkin/checklist.dart';
 import 'package:flutter_mymaid/Screens/Home/components/launcher.dart';
+import 'package:flutter_mymaid/componants/background.dart';
 import 'create_todo.dart';
 import 'show_todos.dart';
 import 'header_todo.dart';
@@ -17,7 +17,7 @@ class TodosPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: false,
+          // automaticallyImplyLeading: false,
           backgroundColor: kPrimaryColor,
           title: const Text(
             "รายการกิจกรรม",
@@ -29,32 +29,18 @@ class TodosPage extends StatelessWidget {
           actions: <Widget>[
             IconButton(
               icon: const Icon(
-                Icons.save,
+                Icons.save_outlined,
+                size: 30,
                 color: Colors.white,
               ),
               onPressed: () async {
                 context.read<TodoListBloc>().add(SaveTodoEvent(_index));
                 await showAlertDialog(context);
-                // const snackBar = SnackBar(content: Text('Saved successfully!!')
-                //     // action: SnackBarAction(
-                //     //   label: 'Undo',
-                //     //   onPressed: () {
-                //     //     // Some code to undo the change.
-                //     //   },
-                //     // ),
-                //     );
-                // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                //   await Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) =>  const GetChecklist(),
-                //   ),
-                // );
               },
             )
           ],
         ),
-        body: SingleChildScrollView(
+        body: Background(
           child: SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(
@@ -62,19 +48,38 @@ class TodosPage extends StatelessWidget {
                 vertical: 10,
               ),
               child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
-                    TodoHeader(),
-                    SizedBox(height: 5),
-                    CreateTodo(),
-                    SizedBox(height: 2),
-                    // SearchAndFilterTodo(),
-                    SizedBox(height: 2),
-                    ShowTodos(),
-                  ]),
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: const [
+                  TodoHeader(),
+                  SizedBox(height: 5),
+                  CreateTodo(),
+                  SizedBox(height: 2),
+                  // SearchAndFilterTodo(),
+                  SizedBox(height: 2),
+                  ShowTodos(), //_index
+                ],
+              ),
             ),
           ),
         ),
+        // body: SingleChildScrollView(
+        //   child: Padding(
+        //     padding: const EdgeInsets.symmetric(
+        //       horizontal: 10,
+        //       vertical: 10,
+        //     ),
+        //     child:
+        //         Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+        //       // const TodoHeader(),
+        //       // const SizedBox(height: 5),
+        //       // const CreateTodo(),
+        //       // const SizedBox(height: 2),
+        //       // // SearchAndFilterTodo(),
+        //       // const SizedBox(height: 2),
+        //       // const ShowTodos(),
+        //     ]),
+        //   ),
+        // ),
       ),
     );
   }
@@ -87,7 +92,7 @@ class TodosPage extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>  Launcher(9999),
+            builder: (context) => Launcher(9999),
           ),
         );
       },

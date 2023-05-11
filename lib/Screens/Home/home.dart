@@ -113,10 +113,10 @@ class MobileLoginScreen extends StatelessWidget {
       body: Background(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const LoginScreenTopImage(),
+          children:  <Widget>[
+             const LoginScreenTopImage(),
             buildContainerbodyHello(),
-            buildContainerbodyTaskSummaryMobile(context, 80, 130),
+            // buildContainerbodyTaskSummaryMobile(context, 80, 100), //pachari_pm@hotmail.com
           ],
         ),
       ),

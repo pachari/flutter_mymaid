@@ -5,7 +5,9 @@ import '../../blocs/blocs.dart';
 import '../../services/todo_service.dart';
 
 class ShowTodos extends StatelessWidget {
-  const ShowTodos({Key? key}) : super(key: key);
+  // final int docID; this.docID,
+  const ShowTodos( {Key? key})
+      : super(key: key); 
 
   List<Todo> setFilteredTodos(
     Filter filter,
@@ -233,7 +235,7 @@ class _TodoItemState extends State<TodoItem> {
         ),
         title: Text(
           widget.todo.desc,
-          style: const TextStyle(fontSize: 14, color: kTextColor),
+          style: const TextStyle(color: kTextColor,fontSize: 15),
         ),
       ),
     );

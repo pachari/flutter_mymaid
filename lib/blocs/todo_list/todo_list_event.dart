@@ -40,7 +40,7 @@ class ToggleTodoEvent extends TodoListEvent {
   final String id;
 
   const ToggleTodoEvent(this.id);
-
+  
   @override
   List<Object> get props => [id];
 
@@ -68,7 +68,6 @@ class SaveTodoEvent extends TodoListEvent {
   final int id;
 
   const SaveTodoEvent(this.id);
-  
 
   @override
   String toString() {
@@ -77,5 +76,4 @@ class SaveTodoEvent extends TodoListEvent {
 
   @override
   List<Object> get props => [id];
-  
 }

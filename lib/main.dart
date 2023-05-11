@@ -79,8 +79,7 @@ class MyApp extends StatelessWidget {
                 borderSide: BorderSide.none,
               ),
             )),
-        home:
-            const CheckUserState(), //  CheckUserState() Mycheck() ,//WelcomeScreen(),
+        home:const CheckUserState(), //  CheckUserState() Mycheck() ,//WelcomeScreen(),
       ),
     );
   }
