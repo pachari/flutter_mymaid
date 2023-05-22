@@ -61,6 +61,9 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        configurations.all {
+            resolutionStrategy { force 'androidx.work:work-runtime:2.6.0' }
+        }
     }
 
     buildTypes {

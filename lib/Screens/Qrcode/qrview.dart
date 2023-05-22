@@ -48,8 +48,8 @@ class _QrviewState extends State<Qrview> {
                      const MycheckView(1)//data['id']
                      
                   else
-                    Column(
-                      children: const [
+                     const Column(
+                      children: [
                         Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text(

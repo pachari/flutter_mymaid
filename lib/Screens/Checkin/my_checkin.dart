@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 // ignore_for_file: avoid_function_literals_in_foreach_calls, use_build_context_synchronously
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mymaid/Screens/Checkin/components/my_checkin_view.dart';
+// import 'package:flutter_mymaid/Screens/Home/components/launcher.dart';
 import 'package:flutter_mymaid/componants/background.dart';
 import 'package:flutter_mymaid/Screens/Menu/appbar.dart';
 import 'package:flutter_mymaid/constants.dart';
@@ -21,6 +23,7 @@ class Mycheck extends StatefulWidget {
 }
 
 class _MycheckState extends State<Mycheck> with SingleTickerProviderStateMixin {
+  // final TextEditingController newTodoController = TextEditingController();
   // DateTime
   String formattedDates = DateFormat('yyyyMMdd').format(DateTime.now());
   // document id
@@ -30,40 +33,50 @@ class _MycheckState extends State<Mycheck> with SingleTickerProviderStateMixin {
   //  List<String> checklistsdocIDs = [];
   // get checklists docIDs
   Future getChecklistsDocIds() async {
-    final db =
-        FirebaseFirestore.instance.collection("checklists").orderBy('id');
-    await db.get().then(
-          (snapshot) => snapshot.docs.forEach(
-            (document) {
-              checklistsdocIDs.add(document.reference.id);
-            },
-          ),
-        );
+    try {
+      final db =
+          FirebaseFirestore.instance.collection("checklists").orderBy('id');
+      await db.get().then(
+            (snapshot) => snapshot.docs.forEach(
+              (document) {
+                checklistsdocIDs.add(document.reference.id);
+              },
+            ),
+          );
+    } on SocketException catch (_) {
+      // make it explicit that a SocketException will be thrown if the network connection fails
+      rethrow;
+    }
   }
 
   // get DocIdsList
   Future getTodoLists(int id) async {
-    todoActiveIDs = [];
-    final user = FirebaseAuth.instance.currentUser;
-    final db = FirebaseFirestore.instance.collection("todolists");
-    // ignore: non_constant_identifier_names
-    int Sid = 0;
-    for (var i = 1; i <= 20; i++) {
-      final todolists =
-          db.doc(user?.uid).collection('$formattedDates-$id').doc('$i');
-      final docSnap = await todolists.get();
-      final todolistsId = docSnap.data();
+    try {
+      todoActiveIDs = [];
+      final user = FirebaseAuth.instance.currentUser;
+      final db = FirebaseFirestore.instance.collection("todolists");
+      // ignore: non_constant_identifier_names
+      int Sid = 0;
+      for (var i = 1; i <= 20; i++) {
+        final todolists =
+            db.doc(user?.uid).collection('$formattedDates-$id').doc('$i');
+        final docSnap = await todolists.get();
+        final todolistsId = docSnap.data();
 
-      if (todolistsId != null) {
-        if (todolistsId['active'] == true) {
-          if (Sid != id) {
-            todoActiveIDs.add('${todolistsId['checklistid']}');
-            Sid = id;
+        if (todolistsId != null) {
+          if (todolistsId['active'] == true) {
+            if (Sid != id) {
+              todoActiveIDs.add('${todolistsId['checklistid']}');
+              Sid = id;
+            }
           }
         }
       }
+      return '$todoActiveIDs';
+    } on SocketException catch (_) {
+      // make it explicit that a SocketException will be thrown if the network connection fails
+      rethrow;
     }
-    return '$todoActiveIDs';
   }
 
   @override
@@ -135,7 +148,6 @@ class _MycheckState extends State<Mycheck> with SingleTickerProviderStateMixin {
 
   FutureBuilder<DocumentSnapshot> buildbody(
       BuildContext context, String lists) {
-    // Icon status;
     final checklists =
         FirebaseFirestore.instance.collection("checklists").doc(lists);
     return FutureBuilder<DocumentSnapshot>(
@@ -246,15 +258,14 @@ class _MycheckState extends State<Mycheck> with SingleTickerProviderStateMixin {
                   },
                 )
               },
-              icon: _checkIcon(
-                  data['id']), // _widgetbuilder(data['id']), //todoActiveIDs,
-              // leading: _checkIcon(data['id']),
+              icon: _checkIcon(data['id']),
             ),
             title: Text('${data['title']}',
                 style: const TextStyle(fontSize: 16, color: kTextColor)),
             subtitle: Text('${data['subtitle']}',
                 style: const TextStyle(fontSize: 16)),
             onTap: () {
+              // newTodoController.clear();
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -273,7 +284,12 @@ class _MycheckState extends State<Mycheck> with SingleTickerProviderStateMixin {
       future: getTodoLists(id),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          if (snapshot.data != null) {
+          if (snapshot.data == null) {
+            return const Icon(
+              Icons.location_pin,
+              size: 30,
+            );
+          } else {
             List<String> ss = snapshot.data.split(',');
             for (int n = 0; n < ss.length; n++) {
               ss[n] = ss[n]
@@ -288,11 +304,6 @@ class _MycheckState extends State<Mycheck> with SingleTickerProviderStateMixin {
                 );
               }
             }
-          } else {
-            return const Icon(
-              Icons.location_pin,
-              size: 30,
-            );
           }
         }
         return const Icon(

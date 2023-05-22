@@ -7,10 +7,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_mymaid/Screens/Home/components/launcher.dart';
+import 'package:flutter_mymaid/Screens/todos_page/create_todo.dart';
+import 'package:flutter_mymaid/Screens/todos_page/header_todo.dart';
 // import 'package:flutter_mymaid/Screens/todos_page/create_todo.dart';
 import 'package:flutter_mymaid/Screens/todos_page/search_and_filter_todo.dart';
 import 'package:flutter_mymaid/Screens/todos_page/show_todos.dart';
 import 'package:flutter_mymaid/blocs/todo_list/todo_list_bloc.dart';
+// import 'package:flutter_mymaid/services/todo_service.dart';
 import 'package:intl/intl.dart';
 import '../../../constants.dart';
 import 'checkbox_start.dart';
@@ -29,7 +32,7 @@ class MycheckView extends StatefulWidget {
 class _MycheckViewState extends State<MycheckView> {
   bool value = false;
   final notification = TodoListState.initial();
-
+  final TextEditingController newTodoController = TextEditingController();
   // [
   //   CheckBoxState(title: 'กวาดพื้นห้อง , ดูดฝุ่น , ถูพื้น'),
   //   CheckBoxState(title: 'เช็ดตู้เอกสาร , เครื่องใช้สำนักงาน , เช็ดโต๊ะ'),
@@ -78,21 +81,39 @@ class _MycheckViewState extends State<MycheckView> {
     final docSnap = await todolists.get();
     final lists = docSnap.data();
     if (widget.ssid == lists!['checklistid']) {
-     
       if (lists['active'] == true) {
         //  print(lists['active']);
-      //  print(lists['id']);
+        // var sid = int.parse(lists['id'])-1;
+        //  print(sid);
+        // print(lists['id']);
+        //   Todo(
+        //   id: lists['id'],
+        //   desc:lists['detail'],
+        //   completed: false,
+        // );
+        // context.read<TodoListBloc>().state.todos;
         context.read<TodoListBloc>().add(ToggleTodoEvent(lists['id']));
-      }
+        // newTodoController.clear();
+      } 
+      // else {
+      //   // newTodoController.clear();
+      //   // context.read<TodoListBloc>().add(ToggleTodoEvent(lists['id']));
+      // }
     }
   }
+
+  // @override
+  // void dispose() {
+  //   newTodoController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   void initState() {
     super.initState();
     // อ้างอิงฐานข้อมูล
     _db = TodolistDatabase.instance;
-    todolists = _db.readAllTodo(); // แสดงรายการหนังสือ
+    todolists = _db.readAllTodo(); // แสดงรายการ ใช้กับ sqllite
     super.initState();
     getDocIds();
   }
@@ -180,6 +201,7 @@ class _MycheckViewState extends State<MycheckView> {
         ),
         leading: GestureDetector(
           onTap: () {
+            // newTodoController.clear();
             getDocIds();
             Navigator.push(
               context,
@@ -204,7 +226,6 @@ class _MycheckViewState extends State<MycheckView> {
               onPressed: () async {
                 context.read<TodoListBloc>().add(SaveTodoEvent(widget.ssid));
                 await showAlertDialog(context);
-                getDocIds();
               },
             ),
           )
@@ -225,13 +246,13 @@ class _MycheckViewState extends State<MycheckView> {
             ),
             margin: const EdgeInsets.all(8),
             padding: const EdgeInsets.all(5),
-            child: SingleChildScrollView(
+            child:  const SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
-                  // TodoHeader(),
+                children:  [
+                  TodoHeader(),
                   SizedBox(height: 5),
-                  // CreateTodo(),
+                  CreateTodo(),
                   // SizedBox(height: 2),
                   SearchAndFilterTodo(),
                   SizedBox(height: 2),
@@ -290,11 +311,11 @@ class _MycheckViewState extends State<MycheckView> {
             margin: const EdgeInsets.all(2),
             padding: const EdgeInsets.all(2),
             child: Column(
-              children: [
-                Column(
+              children:  [
+                 const Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
+                  children:  [
                     // ...notification.map(buildSingleCheckbox).toList(),
                     // buildbody(context, todolists, widget.name),
                   ],
@@ -454,6 +475,7 @@ class _MycheckViewState extends State<MycheckView> {
     Widget okButton = TextButton(
       child: const Text("OK"),
       onPressed: () {
+        getDocIds();
         Navigator.push(
           context,
           MaterialPageRoute(

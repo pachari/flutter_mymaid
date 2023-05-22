@@ -40,16 +40,16 @@ class TodosPage extends StatelessWidget {
             )
           ],
         ),
-        body: Background(
+        body:  const Background(
           child: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.symmetric(
+              padding:  EdgeInsets.symmetric(
                 horizontal: 10,
                 vertical: 10,
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
+                children:  [
                   TodoHeader(),
                   SizedBox(height: 5),
                   CreateTodo(),

@@ -27,23 +27,23 @@ class SearchAndFilterTodo extends StatelessWidget {
               filterButton(context, Filter.completed),
             ],
           ),
-          // const SizedBox(height: 5.0),
-          // TextField(
-          //   decoration: const InputDecoration(
-          //     contentPadding: EdgeInsets.symmetric(vertical: 5),
-          //     labelText: 'ค้นหา',
-          //     border: InputBorder.none,
-          //     filled: true,
-          //     prefixIcon: Icon(Icons.search),
-          //   ),
-          //   onChanged: (String? newSearchTerm) {
-          //     if (newSearchTerm != null) {
-          //       context
-          //           .read<TodoSearchBloc>()
-          //           .add(setSearchTermEvent(newSearchTerm: newSearchTerm));
-          //     }
-          //   },
-          // ),
+          const SizedBox(height: 5.0),
+          TextField(
+            decoration: const InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 5),
+              labelText: 'ค้นหา',
+              border: InputBorder.none,
+              filled: true,
+              prefixIcon: Icon(Icons.search),
+            ),
+            onChanged: (String? newSearchTerm) {
+              if (newSearchTerm != null) {
+                context
+                    .read<TodoSearchBloc>()
+                    .add(setSearchTermEvent(newSearchTerm: newSearchTerm));
+              }
+            },
+          ),
         ],
       ),
     );

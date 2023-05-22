@@ -43,14 +43,15 @@ class TodoListBloc extends Bloc<TodoListEvent, TodoListState> {
 
   void _toggleTodo(ToggleTodoEvent event, Emitter<TodoListState> emit) {
     final newTodos = state.todos.map((Todo todo) {
-     
-      if (todo.id == event.id) {print(event.id);
-         return Todo(
+      // print(todo.id);
+      if (todo.id == event.id) {
+        return Todo(
           id: event.id,
           desc: todo.desc,
           completed: !todo.completed,
         );
       }
+
       return todo;
     }).toList();
     emit(state.copyWith(todos: newTodos));
@@ -65,12 +66,10 @@ class TodoListBloc extends Bloc<TodoListEvent, TodoListState> {
   Future<void> _saveTodo(
       SaveTodoEvent event, Emitter<TodoListState> emit) async {
     //get the collection
-    CollectionReference todolists =
-        FirebaseFirestore.instance.collection('todolists');
+    CollectionReference todolists = FirebaseFirestore.instance.collection('todolists');
     final user = FirebaseAuth.instance.currentUser;
-    var now = DateTime.now();
-    var formatter = DateFormat('yyyyMMdd');
-    String formattedDate = formatter.format(now);
+    // var now = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+    var formattedDate = DateFormat('yyyyMMdd').format(DateTime.now());
     for (int i = 0; i < state.todos.length; i++) {
       try {
         // if (state.todos[i].completed == true) {
@@ -85,22 +84,35 @@ class TodoListBloc extends Bloc<TodoListEvent, TodoListState> {
         await todolists
             .doc(user?.uid)
             .collection("$formattedDate-${event.id}")
-            .doc(state.todos[i].id)
+            .doc(state.todos[i].id) //state.todos[i].id
             .set({
           "id": state.todos[i].id,
           "detail": state.todos[i].desc,
           "active": state.todos[i].completed,
-          "checklistid": event.id
+          "checklistid": event.id,
+          "startTime": DateTime.now(),
+          "endTime": DateTime.now()
         });
-        // print('$event');
+        print(state.todos[i]);
+        // if (state.todos[i].completed == true) {
+        //   var ids = int.parse(state.todos[i].id);
+        //   print(ids);
+        //   // 'toggleTodo{id: $ids}';
+        //   //     // // 'toggleTodo{id: ${state.todos[i].id}}';
+        //       final newTodos2 = state.todos.map((Todo todo) {
+        //         return Todo(
+        //           id: '$ids',//state.todos[i].id,
+        //           desc: todo.desc,
+        //           completed: false, //!todo.completed
+        //         );
+        //       }).toList();
+        //       emit(state.copyWith(todos: newTodos2));
         // }
       } catch (e) {
-        // catch all exceptions (not just SocketException)
-        // 4. return Error here too
         print(e);
       }
     }
-    // print(state.todos.length);
+    print(state.todos.length);
     print(state);
   }
 }
